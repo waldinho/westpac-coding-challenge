@@ -1,4 +1,5 @@
 import React from 'react';
+import { HashRouter as Router } from 'react-router-dom';
 import { render, waitFor } from '@testing-library/react';
 import Nav from './Nav';
 
@@ -35,14 +36,16 @@ jest.mock('../hooks/useAPIContext', () => ({
 describe('Nav', () => {
   it('renders the button', async() => {
     const { queryByText } = render(
-      <Nav 
-        setPostQuery={() => {}} 
-        setListItemNumber={() => {}} 
-        setClickedUser={() => {}}
-        setClickedUserId={() => {}} 
-        clickedUser="Leanne Graham"
-      />
-    );
+      <Router>
+        <Nav 
+          setPostQuery={() => {}}
+          setCommentQuery={() => {}} 
+          setListItemNumber={() => {}} 
+          setClickedUser={() => {}}
+          setClickedUserId={() => {}} 
+          clickedUser="Leanne Graham"
+        />
+      </Router>);
     await waitFor(() => {
       expect(queryByText('Leanne')).toBeInTheDocument();
       expect(queryByText('monkey baloons')).not.toBeInTheDocument();

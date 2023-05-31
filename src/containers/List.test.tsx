@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
+import { HashRouter as Router } from 'react-router-dom';
 import List from './List';
 
 // Mock the useAPI hook
@@ -37,14 +38,14 @@ jest.mock('../hooks/useApiContext', () => ({
 describe('List', () => {
   it('renders the posts component with 3 posts', async() => {
     const { queryByText } = render(
+    <Router>
       <List 
-        setCommentQuery={() => {}} 
         setListItemNumber={() => {}} 
         listItemNumber={3} 
         clickedUser="Leanne Graham"
         clickedUserId={1} 
       />
-    );
+    </Router>);
     await waitFor(() => {
       expect(queryByText('Posts by Leanne Graham')).toBeInTheDocument();
       expect(queryByText('sunt aut facere repellat provident occaecati excepturi optio reprehenderit')).toBeInTheDocument();

@@ -6,13 +6,14 @@ import * as style from '../styleVars/variables';
 
 type Props = {
   setPostQuery: Dispatch<SetStateAction<boolean>>;
+  setCommentQuery: Dispatch<SetStateAction<boolean>>;
   setListItemNumber: Dispatch<SetStateAction<number>>;
   setClickedUser: Dispatch<SetStateAction<string>>;
   clickedUser: string;
   setClickedUserId: Dispatch<SetStateAction<number>>
 };
 
-const Nav = ({ setPostQuery, setListItemNumber, setClickedUser, clickedUser, setClickedUserId }: Props): JSX.Element => {
+const Nav = ({ setPostQuery, setListItemNumber, setClickedUser, clickedUser, setClickedUserId, setCommentQuery }: Props): JSX.Element => {
   const { users } = useAPI();
   return (
     <Menu display="flex" justifyContent="space-between" mt={2}>
@@ -24,8 +25,10 @@ const Nav = ({ setPostQuery, setListItemNumber, setClickedUser, clickedUser, set
                 setPostQuery(true), 
                 setListItemNumber(3), 
                 setClickedUser(name),
-                setClickedUserId(id)
+                setClickedUserId(id),
+                setCommentQuery(true)
               }}
+              href={`#/${id}`}
               variant='contained'
               active={(clickedUser === name).toString()}
               key={id}
