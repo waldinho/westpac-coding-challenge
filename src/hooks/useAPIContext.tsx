@@ -6,8 +6,8 @@ const ApiContext = createContext<Context>({ users: [], posts: [], comments: [], 
 interface Props {
   children?: ReactNode;
   query?: string;
-  postQuery?: string;
-  commentQuery?: string;
+  postQuery?: boolean;
+  commentQuery?: boolean;
 };
 
 const ApiContextProvider = ({ children, query, postQuery, commentQuery }: Props) => {
@@ -38,13 +38,11 @@ const ApiContextProvider = ({ children, query, postQuery, commentQuery }: Props)
   }, [query]);
 
   useEffect(() => {
-    const url = `https://jsonplaceholder.typicode.com/posts/${postQuery}`;
-    postQuery && fetchData(url, 2);
+    postQuery && fetchData('https://jsonplaceholder.typicode.com/posts', 2);
   }, [postQuery]);
 
   useEffect(() => {
-    const url = `https://jsonplaceholder.typicode.com/comments/${commentQuery}`;
-    commentQuery && fetchData(url, 3);
+    commentQuery && fetchData('https://jsonplaceholder.typicode.com/comments', 3);
   }, [commentQuery]);
 
   return (

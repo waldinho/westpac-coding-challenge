@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
 import { useAPI } from './hooks/useAPIContext';
 import ApiContextProvider from './hooks/useAPIContext';
@@ -10,10 +9,11 @@ import Error from './components/Error';
 import List from './containers/List';
 
 export const App = (): JSX.Element => {
-  const [postQuery, setPostQuery] = useState('');
-  const [commentQuery, setCommentQuery] = useState('');
+  const [postQuery, setPostQuery] = useState(false);
+  const [commentQuery, setCommentQuery] = useState(false);
   const [listItemNumber, setListItemNumber] = useState(3);
   const [clickedUser, setClickedUser] = useState("");
+  const [clickedUserId, setClickedUserId] = useState(-1);
 
   const checkError = (): JSX.Element => {
     const { isError } = useAPI();
@@ -27,26 +27,22 @@ export const App = (): JSX.Element => {
 
   return (
     <ApiContextProvider query="users" postQuery={postQuery} commentQuery={commentQuery}>
-      <Router>
-        <Nav 
-          setPostQuery={setPostQuery} 
-          setListItemNumber={setListItemNumber} 
-          setClickedUser={setClickedUser} 
-          clickedUser={clickedUser}
-        />
-        {checkError()}
-        {checkLoading()}
-        <Routes>
-          <Route path={`/`} element={
-            <List 
-              setCommentQuery={setCommentQuery} 
-              listItemNumber={listItemNumber} 
-              setListItemNumber={setListItemNumber} 
-              clickedUser={clickedUser}
-            />
-          }/>
-        </Routes>
-      </Router>
+      <Nav 
+        setPostQuery={setPostQuery} 
+        setListItemNumber={setListItemNumber} 
+        setClickedUser={setClickedUser} 
+        clickedUser={clickedUser}
+        setClickedUserId={setClickedUserId}
+      />
+      {checkError()}
+      {checkLoading()}
+      <List 
+        setCommentQuery={setCommentQuery} 
+        listItemNumber={listItemNumber} 
+        setListItemNumber={setListItemNumber} 
+        clickedUser={clickedUser}
+        clickedUserId={clickedUserId}
+      />
     </ApiContextProvider>
   )
 };
