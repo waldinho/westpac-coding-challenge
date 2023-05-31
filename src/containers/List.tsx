@@ -5,13 +5,14 @@ import filterData from '../utils/filterData';
 import * as style from '../styleVars/variables';
 
 type Props = {
+  setCommentQuery: Dispatch<SetStateAction<boolean>>;
   listItemNumber: number;
   setListItemNumber: Dispatch<SetStateAction<number>>;
   clickedUser?: string;
   clickedUserId: number;
 };
   
-const List = ({ listItemNumber, setListItemNumber, clickedUser, clickedUserId }: Props)=> {
+const List = ({ setCommentQuery, listItemNumber, setListItemNumber, clickedUser, clickedUserId }: Props)=> {
   const { posts, comments } = useAPI();
   const [clickedPost, setClickedPost] = useState(0);
   return <>
@@ -24,7 +25,8 @@ const List = ({ listItemNumber, setListItemNumber, clickedUser, clickedUserId }:
           <p>{body}</p>
           <Button 
             onClick={() => { 
-              setClickedPost(id)
+              setClickedPost(id),
+              setCommentQuery(true)
             }} 
             variant='contained' 
             >

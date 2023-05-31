@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
 import { useAPI } from './hooks/useAPIContext';
 import ApiContextProvider from './hooks/useAPIContext';
@@ -26,40 +25,24 @@ export const App = (): JSX.Element => {
     return <>{posts.length === 0 || users.length === 0 && <Box display="flex" justifyContent="center" mt={25}><CircularProgress /></Box>}</>; 
   };
 
-  const AppRoutes = (): JSX.Element => {
-    const { users } = useAPI();
-    return (
-      <Routes>
-        {users?.map(item => {
-          const { id } = item;
-          return <Route path={`/${id}`} element={
-            <List 
-              listItemNumber={listItemNumber} 
-              setListItemNumber={setListItemNumber} 
-              clickedUser={clickedUser}
-              clickedUserId={clickedUserId}
-            />
-          } key={id} />
-        })}
-      </Routes>
-    )
-  };
-
   return (
     <ApiContextProvider query="users" postQuery={postQuery} commentQuery={commentQuery}>
-      <Router>
-        <Nav 
-          setPostQuery={setPostQuery} 
-          setListItemNumber={setListItemNumber} 
-          setClickedUser={setClickedUser} 
-          clickedUser={clickedUser}
-          setClickedUserId={setClickedUserId}
-          setCommentQuery={setCommentQuery} 
-        />
-        {checkError()}
-        {checkLoading()}
-        <AppRoutes />
-      </Router>
+      <Nav 
+        setPostQuery={setPostQuery} 
+        setListItemNumber={setListItemNumber} 
+        setClickedUser={setClickedUser} 
+        clickedUser={clickedUser}
+        setClickedUserId={setClickedUserId}
+      />
+      {checkError()}
+      {checkLoading()}
+      <List 
+        setCommentQuery={setCommentQuery} 
+        listItemNumber={listItemNumber} 
+        setListItemNumber={setListItemNumber} 
+        clickedUser={clickedUser}
+        clickedUserId={clickedUserId}
+      />
     </ApiContextProvider>
   )
 };
