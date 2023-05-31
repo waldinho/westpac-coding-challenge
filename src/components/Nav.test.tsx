@@ -3,9 +3,9 @@ import { HashRouter as Router } from 'react-router-dom';
 import { render, waitFor } from '@testing-library/react';
 import Nav from './Nav';
 
-jest.mock('../hooks/usersContext', () => ({
+jest.mock('../hooks/useAPIContext', () => ({
   useAPI: jest.fn(() => ({
-    users: {
+    users: [{
       id: 1,
       name: "Leanne Graham",
       username: "Bret",
@@ -27,15 +27,23 @@ jest.mock('../hooks/usersContext', () => ({
         catchPhrase: "Multi-layered client-server neural-net",
         bs: "harness real-time e-markets"
       }
-    },
+    }],
     isLoading: false,
     isError: false,
   })),
 }));
 
 describe('Nav', () => {
-  it('renders the card', async() => {
-    const { queryByText } = render(<Router><Nav setPostQuery={() => {}} setListItemNumber={() => {}}/></Router>);
+  it('renders the button', async() => {
+    const { queryByText } = render(
+      <Router>
+        <Nav 
+          setPostQuery={() => {}} 
+          setListItemNumber={() => {}} 
+          setClickedUser={() => {}} 
+          clickedUser="Leanne Graham"
+        />
+      </Router>);
     await waitFor(() => {
       expect(queryByText('Leanne')).toBeInTheDocument();
       expect(queryByText('monkey baloons')).not.toBeInTheDocument();

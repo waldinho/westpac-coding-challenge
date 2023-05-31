@@ -13,6 +13,7 @@ export const App = (): JSX.Element => {
   const [postQuery, setPostQuery] = useState('');
   const [commentQuery, setCommentQuery] = useState('');
   const [listItemNumber, setListItemNumber] = useState(3);
+  const [clickedUser, setClickedUser] = useState("");
 
   const checkError = (): JSX.Element => {
     const { isError } = useAPI();
@@ -27,11 +28,23 @@ export const App = (): JSX.Element => {
   return (
     <ApiContextProvider query="users" postQuery={postQuery} commentQuery={commentQuery}>
       <Router>
-        <Nav setPostQuery={setPostQuery} setListItemNumber={setListItemNumber} />
+        <Nav 
+          setPostQuery={setPostQuery} 
+          setListItemNumber={setListItemNumber} 
+          setClickedUser={setClickedUser} 
+          clickedUser={clickedUser}
+        />
         {checkError()}
         {checkLoading()}
         <Routes>
-          <Route path={`/`} element={<List setCommentQuery={setCommentQuery} listItemNumber={listItemNumber} setListItemNumber={setListItemNumber} />}/>
+          <Route path={`/`} element={
+            <List 
+              setCommentQuery={setCommentQuery} 
+              listItemNumber={listItemNumber} 
+              setListItemNumber={setListItemNumber} 
+              clickedUser={clickedUser}
+            />
+          }/>
         </Routes>
       </Router>
     </ApiContextProvider>

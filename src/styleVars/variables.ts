@@ -4,6 +4,7 @@ export const black = '#000';
 export const grey = '#878787';
 export const blue = '#0372fa';
 export const lightGrey = '#dadada';
+export const orange = '#FFA500';
 
 // Font sizes 
 export const fontSize = {sm: '10px', md: '14px', lg: '24px'};

@@ -1,45 +1,56 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { HashRouter as Router } from 'react-router-dom';
-import * as mockData from '../api/data.json';
-import Carousel from './List';
+import List from './List';
 
 // Mock the useAPI hook
-jest.mock('../api/apiContext', () => ({
+jest.mock('../hooks/useApiContext', () => ({
   useAPI: jest.fn(() => ({
-    data: mockData.titles,
+    posts: [{
+      userId: 1,
+      id: 1,
+      title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
+      body: 'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto'
+    },
+    {
+      userId: 1,
+      id: 2,
+      title: 'qui est esse',
+      body: 'est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla'
+    },
+    {
+      userId: 1,
+      id: 3,
+      title: 'ea molestias quasi exercitationem repellat qui ipsa sit aut',
+      body: 'et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut'
+    },
+    {
+      userId: 1,
+      id: 4,
+      title: 'eum et est occaecati',
+      body: 'ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit'
+    }],
     isLoading: false,
     isError: false,
   })),
 }));
 
-describe('Carousel', () => {
-  it('renders the carousel component with all titles', async() => {
-    const { queryByLabelText } = render(<Router><Carousel type={null} /></Router>);
+describe('List', () => {
+  it('renders the posts component with 3 posts', async() => {
+    const { queryByText } = render(
+    <Router>
+      <List 
+        setCommentQuery={() => {}} 
+        setListItemNumber={() => {}} 
+        listItemNumber={3} 
+        clickedUser="Leanne Graham"
+      />
+    </Router>);
     await waitFor(() => {
-      expect(queryByLabelText(mockData.titles[0].title)).toBeInTheDocument();
-      expect(queryByLabelText(mockData.titles[5].title)).toBeInTheDocument();
+      expect(queryByText('Posts by Leanne Graham')).toBeInTheDocument();
+      expect(queryByText('sunt aut facere repellat provident occaecati excepturi optio reprehenderit')).toBeInTheDocument();
+      expect(queryByText('ea molestias quasi exercitationem repellat qui ipsa sit aut')).toBeInTheDocument();
+      expect(queryByText('eum et est occaecati')).not.toBeInTheDocument();
     });
     });
-  it('renders the carousel component with movies', async() => {
-    const { queryByLabelText } = render(<Router><Carousel type='movie' /></Router>);
-    await waitFor(() => {
-      expect(queryByLabelText(mockData.titles[5].title)).toBeInTheDocument();
-      expect(queryByLabelText(mockData.titles[0].title)).not.toBeInTheDocument();
-    });
-  });
-  it('renders the carousel component with series', async() => {
-    const { queryByLabelText } = render(<Router><Carousel type='series' /></Router>);
-    await waitFor(() => {
-      expect(queryByLabelText(mockData.titles[0].title)).toBeInTheDocument();
-      expect(queryByLabelText(mockData.titles[5].title)).not.toBeInTheDocument();
-    });
-  });
-  it('only show 6 titles in the DOM', async() => {
-    const { queryByLabelText } = render(<Router><Carousel type={null} /></Router>);
-    await waitFor(() => {
-      expect(queryByLabelText(mockData.titles[0].title)).toBeInTheDocument();
-      expect(queryByLabelText(mockData.titles[6].title)).not.toBeInTheDocument();
-    });
-  });
 });
