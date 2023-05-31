@@ -2,7 +2,6 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import List from './List';
 
-// Mock the useAPI hook
 jest.mock('../hooks/useApiContext', () => ({
   useAPI: jest.fn(() => ({
     posts: [{

@@ -1,7 +1,13 @@
 import React, { useContext, useState, useEffect, createContext, ReactNode } from "react";
 import { Context } from '../types/general'
 
-const ApiContext = createContext<Context>({ users: [], posts: [], comments: [], isloading: false, isError: false })
+const ApiContext = createContext<Context>({ 
+  users: [], 
+  posts: [], 
+  comments: [], 
+  isloading: false, 
+  isError: false 
+})
 
 interface Props {
   children?: ReactNode;

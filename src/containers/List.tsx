@@ -12,12 +12,19 @@ type Props = {
   clickedUserId: number;
 };
   
-const List = ({ setCommentQuery, listItemNumber, setListItemNumber, clickedUser, clickedUserId }: Props)=> {
+const List = ({ 
+    setCommentQuery, 
+    listItemNumber, 
+    setListItemNumber, 
+    clickedUser, 
+    clickedUserId 
+  }: Props) => {
   const { posts, comments } = useAPI();
   const [clickedPost, setClickedPost] = useState(0);
+  const filteredPosts = filterData(posts, 'userId', clickedUserId);
   return <>
     {clickedUser && <h2>Posts by {clickedUser}</h2>}
-    {filterData(posts, 'userId', clickedUserId)?.slice(0, listItemNumber).map(item => {
+    {filteredPosts?.slice(0, listItemNumber).map(item => {
       const {id, title, body} = item;
       return (
         <Card sx={{ my: 1, p: 2, }} key={id}>
@@ -33,7 +40,14 @@ const List = ({ setCommentQuery, listItemNumber, setListItemNumber, clickedUser,
               Expand
           </Button>
           {clickedPost === id && filterData(comments, 'postId', id)?.map((comment, i) => 
-            <Card sx={{ backgroundColor: style.lightGrey, padding: 1, marginY: 1 }} key={`${comment?.body + i}`}>
+            <Card 
+              sx={{ 
+                backgroundColor: style.lightGrey, 
+                padding: 1, 
+                marginY: 1 
+              }} 
+              key={`${comment?.body + i}`}
+            >
               <p>{comment?.body}</p>
               <h5>User: {comment?.email}</h5>
             </Card>
@@ -42,7 +56,13 @@ const List = ({ setCommentQuery, listItemNumber, setListItemNumber, clickedUser,
     )})}
     {listItemNumber === posts?.length || posts?.length !== 0 && 
       <Box display="flex" justifyContent="center">
-        <Button onClick={() => {setListItemNumber(posts?.length)}} variant='contained' sx={{ my: 2 }}>Load all</Button>
+        <Button 
+          onClick={() => {setListItemNumber(posts?.length)}} 
+          variant='contained' 
+          sx={{ my: 2 }}
+        >
+          Load all
+        </Button>
       </Box>
     }
   </>;

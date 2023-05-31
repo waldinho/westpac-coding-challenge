@@ -18,6 +18,7 @@ const Nav = ({ setPostQuery, setListItemNumber, setClickedUser, clickedUser, set
     <Menu display="flex" justifyContent="space-between" mt={2}>
         {users?.map((item, i) => {
           const { name, id } = item;
+          const nameFormatted = name?.replace(/^\s*(?:M(?:iss|rs?|s)|Dr|Rev|Er)\b[\s.]*/ig, '').split(' ')[0];
           return (
             <NavButton 
               onClick={() => { 
@@ -31,7 +32,7 @@ const Nav = ({ setPostQuery, setListItemNumber, setClickedUser, clickedUser, set
               key={id}
               sx={{ mb: { xs: 1, md: 0 }}}
             >
-              {name?.replace(/^\s*(?:M(?:iss|rs?|s)|Dr|Rev|Er)\b[\s.]*/ig, '').split(' ')[0]}
+              {nameFormatted}
             </NavButton>
           )
         })}
