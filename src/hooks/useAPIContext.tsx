@@ -24,19 +24,21 @@ const ApiContextProvider = ({ children, query, postQuery, commentQuery }: Props)
   const [isError, setIsError] = useState(false);
 
   const fetchData = async (url: string, type: 1 | 2 | 3) => { 
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        type === 1 && setUsers(json);
-        type === 2 && setPosts(json);
-        type === 3 && setComments(json);
-        setIsLoading(false);
-      }),
-      (err: Error) => {
-        console.log('Users Context error: ', err);
-        setIsError(true);
-      }
+    try {
+      const data = await fetch(url);
+      const json = await data.json();
+      type === 1 && setUsers(json);
+      type === 2 && setPosts(json);
+      type === 3 && setComments(json);
+    } 
+    catch (error) {
+      console.log('API Context error: ', error);
+      setIsError(true);
     }
+    finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
     const url = `https://jsonplaceholder.typicode.com/${query}`;
